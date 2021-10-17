@@ -9,6 +9,20 @@
 (setq user-full-name "Shane Farmer"
       user-mail-address "shane.farmer@gmail.com")
 
+(setq doom-scratch-initial-major-mode 'lisp-interaction-mode)
+(setq company-idle-delay nil)
+
+
+;; Disable invasive lsp-mode features
+(setq lsp-ui-sideline-enable nil   ; not anymore useful than flycheck
+      lsp-ui-doc-enable nil        ; slow and redundant with K
+      lsp-enable-symbol-highlighting nil
+      ;; If an LSP server isn't present when I start a prog-mode buffer, you
+      ;; don't need to tell me. I know. On some systems I don't care to have a
+      ;; whole development environment for some ecosystems.
+      ;;+lsp-prompt-to-install-server 'quiet
+      )
+
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
 ;;
@@ -21,7 +35,13 @@
 ;; font string. You generally only need these two:
 ;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
 ;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
-(setq doom-font (font-spec :family "JetBrains Mono" :size 12))
+;; (setq doom-font (font-spec :family "JetBrains Mono" :size 12))
+
+;; "monospace" means use the system default. However, the default is usually two
+;; points larger than I'd like, so I specify size 12 here.
+(setq doom-font (font-spec :family "JetBrainsMono" :size 12 :weight 'light)
+      doom-variable-pitch-font (font-spec :family "Noto Serif" :size 13)
+      ivy-posframe-font (font-spec :family "JetBrainsMono" :size 15))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -34,8 +54,12 @@
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type t)
+(setq display-line-numbers-type nil)
 
+
+;;; :ui doom-dashboard
+;; Hide the menu for as minimalistic a startup screen as possible.
+(remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-shortmenu)
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
@@ -60,21 +84,13 @@
 
 (setq lsp-auto-guess-root t)
 
-;; Flutter ----------------------------------------------------------
-;; Assuming usage with dart-mode
-(use-package dart-mode
-;;  :ensure-system-package (dart_language_server . "pub global activate dart_language_server")
-  :hook (dart-mode . (lambda ()
-                      (add-hook 'after-save-hook #'flutter-run-or-hot-reload nil t)))
-  :custom
-  (dart-format-on-save t))
+;; (global-set-key (kbd "M-'") 'company-complete)
+;; (global-set-key (kbd "M-]") 'projectile-next-project-buffer)
+;; (global-set-key (kbd "M-[") 'projectile-previous-project-buffer)
+;; (global-set-key (kbd "C-<left>") 'backward-word)
+;; (global-set-key (kbd "C-<right>") 'forward-word)
 
-(use-package flutter
-  :after dart-mode
-  :bind (:map dart-mode-map
-              ("C-M-x" . #'flutter-run-or-hot-reload))
-  :custom
-  (flutter-sdk-path "/home/shane/.local/opt/flutter"))
+;;; TypeScript Configuration
 
 (defun setup-tide-mode ()
   (interactive)
@@ -88,23 +104,6 @@
   ;; `M-x package-install [ret] company`
   (company-mode +1))
 
-(add-hook! dart-mode 'lsp)
-
-(setq gc-cons-threshold (* 100 1024 1024)
-      read-process-output-max (* 1024 1024 100)
-      company-minimum-prefix-length 0
-      ;company-idle-delay 0
-      ;company-tooltip-align-annotations t
-      lsp-lens-enable t
-      lsp-signature-auto-activate nil)
-
-(global-set-key (kbd "M-'") 'company-complete)
-(global-set-key (kbd "M-]") 'projectile-next-project-buffer)
-(global-set-key (kbd "M-[") 'projectile-previous-project-buffer)
-;; (global-set-key (kbd "C-<left>") 'backward-word)
-;; (global-set-key (kbd "C-<right>") 'forward-word)
-
-(add-hook 'after-init-hook 'global-company-mode)
 
 ;; formats the buffer before saving
 (add-hook 'before-save-hook 'tide-format-before-save)
