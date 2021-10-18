@@ -11,17 +11,17 @@
 
 (setq doom-scratch-initial-major-mode 'lisp-interaction-mode)
 (setq company-idle-delay nil)
-
+(map! "M-;" #'company-complete)
 
 ;; Disable invasive lsp-mode features
-(setq lsp-ui-sideline-enable nil   ; not anymore useful than flycheck
-      lsp-ui-doc-enable nil        ; slow and redundant with K
-      lsp-enable-symbol-highlighting nil
-      ;; If an LSP server isn't present when I start a prog-mode buffer, you
-      ;; don't need to tell me. I know. On some systems I don't care to have a
-      ;; whole development environment for some ecosystems.
-      ;;+lsp-prompt-to-install-server 'quiet
-      )
+;; (setq lsp-ui-sideline-enable nil   ; not anymore useful than flycheck
+;;       lsp-ui-doc-enable nil        ; slow and redundant with K
+;;       lsp-enable-symbol-highlighting nil
+;;       ;; If an LSP server isn't present when I start a prog-mode buffer, you
+;;       ;; don't need to tell me. I know. On some systems I don't care to have a
+;;       ;; whole development environment for some ecosystems.
+;;       ;;+lsp-prompt-to-install-server 'quiet
+;;       )
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
@@ -39,9 +39,9 @@
 
 ;; "monospace" means use the system default. However, the default is usually two
 ;; points larger than I'd like, so I specify size 12 here.
-(setq doom-font (font-spec :family "JetBrainsMono" :size 12 :weight 'light)
-      doom-variable-pitch-font (font-spec :family "Noto Serif" :size 13)
-      ivy-posframe-font (font-spec :family "JetBrainsMono" :size 15))
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 12 :weight 'light)
+      doom-variable-pitch-font (font-spec :family "Noto San" :size 13)
+      ivy-posframe-font (font-spec :family "JetBrainsMono Nerd Font" :size 15))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
