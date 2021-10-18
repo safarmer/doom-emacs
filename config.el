@@ -10,8 +10,7 @@
       user-mail-address "shane.farmer@gmail.com")
 
 (setq doom-scratch-initial-major-mode 'lisp-interaction-mode)
-(setq company-idle-delay nil)
-(map! "M-;" #'company-complete)
+
 
 ;; Disable invasive lsp-mode features
 ;; (setq lsp-ui-sideline-enable nil   ; not anymore useful than flycheck
@@ -39,9 +38,8 @@
 
 ;; "monospace" means use the system default. However, the default is usually two
 ;; points larger than I'd like, so I specify size 12 here.
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 12 :weight 'light)
-      doom-variable-pitch-font (font-spec :family "Noto San" :size 13)
-      ivy-posframe-font (font-spec :family "JetBrainsMono Nerd Font" :size 15))
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 13 :weight 'light)
+      doom-variable-pitch-font (font-spec :family "Noto Sans" :size 13))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -55,6 +53,8 @@
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type nil)
+
+(setq-default cursor-type 'bar)
 
 
 ;;; :ui doom-dashboard
@@ -104,8 +104,27 @@
   ;; `M-x package-install [ret] company`
   (company-mode +1))
 
+(map! "M-;" #'company-complete)
 
 ;; formats the buffer before saving
-(add-hook 'before-save-hook 'tide-format-before-save)
+;;(add-hook 'before-save-hook 'tide-format-before-save)
+;;(add-hook 'typescript-mode-hook #'setup-tide-mode)
 
-(add-hook 'typescript-mode-hook #'setup-tide-mode)
+(setq gc-cons-threshold (* 100 1024 1024)
+      read-process-output-max (* 1024 1024 100)
+      company-minimum-prefix-length 0
+      company-idle-delay 0
+      company-tooltip-align-annotations t
+      lsp-lens-enable t
+      lsp-dart-line-length 100
+      lsp-signature-auto-activate nil)
+
+(use-package! yarn)
+
+(map! :leader
+ (:prefix-map ("y" . "yarn")
+  :desc "Yarn install"          "i"     #'yarn-install
+  :desc "Yarn add package"      "a"     #'yarn-add
+  :desc "Yarn test"             "t"     #'yarn-test
+  )
+ )
