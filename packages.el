@@ -55,3 +55,11 @@
 ;; (package! lsp-treemacs)
 ;; (package! lsp-ui)
 ;; (package! hover)
+
+(package! gitconfig-mode :disable t)
+(package! gitignore-mode :disable t)
+(package! yarn-mode)
+(package! company-box)
+(package! tree-sitter)
+(package! tree-sitter-langs)
+(package! gradle-mode)

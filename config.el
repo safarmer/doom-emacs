@@ -44,7 +44,9 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one)
+;(setq doom-theme 'doom-sourcerer)
+(setq doom-theme 'doom-dark+)
+;; (load-theme doom-theme)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -56,10 +58,9 @@
 
 (setq-default cursor-type 'bar)
 
-
 ;;; :ui doom-dashboard
 ;; Hide the menu for as minimalistic a startup screen as possible.
-(remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-shortmenu)
+;; (remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-shortmenu)
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
@@ -119,8 +120,6 @@
       lsp-dart-line-length 100
       lsp-signature-auto-activate nil)
 
-(use-package! yarn)
-
 (map! :leader
  (:prefix-map ("y" . "yarn")
   :desc "Yarn install"          "i"     #'yarn-install
@@ -128,3 +127,44 @@
   :desc "Yarn test"             "t"     #'yarn-test
   )
  )
+
+(map!
+ "C-\\"         #'lsp-dart-dap-flutter-hot-reload
+ "C-|"          #'lsp-dart-dap-flutter-hot-restart
+)
+
+(add-hook! 'dart-mode-hook
+  (dap-register-debug-template
+   "Flutter :: Debug :: Development"
+   (list :name #("Flutter :: Debug :: Development" 0 16 (face nil))
+         :type "flutter"
+         :target "lib/navigator_app.dart"
+         :args '("--flavor" "development" "--dart-define" "THATCH_ENV=development" "--dart-define" "USE_NEW_true=ROUTER")
+         )))
+
+(use-package! company-box
+  :hook
+  (company-mode . company-box-mode)
+  :config
+  (setq company-box-icons-alist 'company-box-icons-idea))
+
+(setq which-key-idle-secondary-delay 0.05)
+
+(after! tree-sitter
+  (tree-sitter-require 'c)
+  (tree-sitter-require 'cpp)
+  (tree-sitter-require 'json)
+  (tree-sitter-require 'java)
+  (tree-sitter-require 'javascript)
+  (tree-sitter-require 'typescript)
+  (tree-sitter-require 'tsx)
+  (tree-sitter-require 'rust)
+  (tree-sitter-require 'python)
+  (tree-sitter-require 'bash)
+  (global-tree-sitter-mode)
+  (add-hook! 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
+
+(add-hook! java-mode #'gradle-mode)
+(setq
+ gradle-gradlew-executable "./gradlew"
+ gradle-use-gradlew t)
