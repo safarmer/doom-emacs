@@ -55,3 +55,8 @@
 ;; (package! lsp-treemacs)
 ;; (package! lsp-ui)
 ;; (package! hover)
+
+(package! yarn-mode)
+
+(package! gitconfig-mode :disable t)
+(package! gitignore-mode :disable t)
