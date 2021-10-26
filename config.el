@@ -45,7 +45,6 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -59,6 +58,15 @@
  cursor-type 'bar
  blink-cursor-mode t)
 
+(setq gc-cons-threshold (* 100 1024 1024)
+      read-process-output-max (* 1024 1024)
+      company-minimum-prefix-length 1
+      company-idle-delay 0.1
+      company-prefix "."
+      company-tooltip-align-annotations t
+      lsp-lens-enable t
+      lsp-dart-line-length 100
+      lsp-signature-auto-activate nil)
 
 ;;; :ui doom-dashboard
 ;; Hide the menu for as minimalistic a startup screen as possible.
@@ -102,16 +110,6 @@
 ;; formats the buffer before saving
 ;;(add-hook 'before-save-hook 'tide-format-before-save)
 ;;(add-hook 'typescript-mode-hook #'setup-tide-mode)
-
-(setq gc-cons-threshold (* 100 1024 1024)
-      read-process-output-max (* 1024 1024)
-      company-minimum-prefix-length 1
-      company-idle-delay 0.1
-      company-prefix "."
-      company-tooltip-align-annotations t
-      lsp-lens-enable t
-      lsp-dart-line-length 100
-      lsp-signature-auto-activate nil)
 
 (with-eval-after-load #'lsp-mode
   (setq
